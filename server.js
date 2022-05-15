@@ -1,20 +1,32 @@
+// import dependencies
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
+// middleware
 app.use(express.static('public'));
+app.use(express.json());
 
+// send GET request
 app.get('/notes', (req,res) => {
     // Send file 'notes.html'
-    res.sendFile(path)
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
+app.get('*', (req,res) => {
+    // Send file 'notes.html'
+    res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
 app.get('/api/notes', (req,res) => {
     // Send file 'notes.html'
-    res.json( /* send note data */ )
+    res.sendFile(path.join(__dirname, '/db/db.json'));
 });
 
+// send POST request
 app.post('/api/notes', (res,req) => {
     // Create (persist) data
     // Access new note data from request
